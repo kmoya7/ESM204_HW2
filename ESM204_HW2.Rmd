@@ -1,0 +1,30 @@
+---
+title: "ESM204_HW2"
+author: "Katheryn Moya"
+date: "4/15/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+
+```
+
+```{r cars}
+# read in data
+water_districts <-read_csv(here("water_districts.csv"))
+```
+
+```{r}
+# plot each irrigation district, plot the marginal 
+```
+
+```{r pressure, echo=FALSE}
+plot(Reduction ~ MC_Kern, data = water_districts)
+
+cor(water_districts$MC_Kern, water_districts$Reduction)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
