@@ -97,12 +97,31 @@ ggplot(data = water_districts, aes(x = Reduction,  y = MC_Ventura)) +
   geom_smooth(method = "lm")
              
 ```
+Take zero-intercept and slope of curves to create marginal abatement curves
 
+- Slope: Kern = 0.4302442, Mojave = 0.2559085, Antelope = 0.3331096, Ventura = 0.4703622 (all positive - demand curve is negative)
+- We are provided with E0 (baseline): Kern = 150 AF, Mojave = 140 AF, Antelope = 220 AF, Ventura = 245 AF
+
+- Derive demand curve from MA curve and plot all 4 onto the same graph -> learned how to do that in class #7
+ --- MB_Kern = 64.5 - 0.43E
+ --- MB_Mojave = 36.4 - 0.26E
+ --- MB_Antelope = 72.6 - 0.33E
+ --- MB_Ventura = 115.15 - 0.47E
 ```{r}
-#take zero-intercept and slope of curves to create marginal abatement curves
-#Slope: Kern = 0.4302442, Mojave = 0.2559085, Antelope = 0.3331096, Ventura = 0.4703622 (all positive - demand curve is negative)
+# Plot all 4 demand curves onto the same graph
 
-#derive demand curve from MA curve and plot all 4 onto the same graph -> learned how to do that in class #7
+MB_Kern <- function(x) {64.5 - 0.43*x}
+MB_Mojave <-  function(x) {36.4 - 0.26*x}
+MB_Antelope <- function(x) {72.6 - 0.33*x}
+MB_Ventura <- function(x) {115.15 - 0.47*x}
+
+ggplot() + 
+  xlim(0,250) + 
+  labs(title = "Marginal Benefit Curve", x = "Emissions", y = "$/Emissions", color = "Water Districts") +
+  geom_function(fun = MB_Kern , aes(color = "blue")) +
+  geom_function(fun = MB_Mojave, aes(color = "yellow")) +
+  geom_function(fun = MB_Antelope, aes(color = "green")) +
+  geom_function(fun = MB_Ventura, aes(color = "purple")) 
 
 #evaluate scenarios
 ```
