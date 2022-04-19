@@ -9,7 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(here)
 library(tidyverse)
-
+library(equatiomatic)
+library(broom)
 ```
 
 ```{r cars}
@@ -18,13 +19,92 @@ water_districts <-read_csv(here("water_districts.csv"))
 ```
 
 ```{r}
-# plot each irrigation district, plot the marginal 
+# for each irrigation district, plot the marginal abatement cost data
+
+## Kern County
+ggplot(data = water_districts, aes(x = Reduction, y = MC_Kern)) +
+  geom_smooth()+
+  labs(title = "Kern County Marginal Abatement Costs",
+         x = "quantity of reduction",
+         y = "Marginal cost") +
+  theme_bw()
+
+## Mojave County
+ggplot(data = water_districts, aes(x = Reduction, y = MC_Mojave)) +
+  geom_smooth()+
+  labs(title = "Mojave County Marginal Abatement Costs",
+         x = "quantity of reduction",
+         y = "Marginal cost") +
+  theme_bw()
+
+## Antelope County
+ggplot(data = water_districts, aes(x = Reduction, y = MC_Antelope)) +
+  geom_smooth()+
+  labs(title = "Antelope County Marginal Abatement Costs",
+         x = "quantity of reduction",
+         y = "Marginal cost") +
+  theme_bw()
+
+## Ventura County
+ggplot(data = water_districts, aes(x = Reduction, y = MC_Ventura)) +
+  geom_smooth()+
+  labs(title = "Ventura County Marginal Abatement Costs",
+         x = "quantity of reduction",
+         y = "Marginal cost") +
+  theme_bw()
 ```
 
-```{r pressure, echo=FALSE}
-plot(Reduction ~ MC_Kern, data = water_districts)
+```{r}
+# Linear regression model
+kern_lm <- lm(Reduction ~ MC_Kern, data = water_districts)
+summary(kern_lm)
+kern_tidy <- tidy(kern_lm)
+kern_tidy
 
-cor(water_districts$MC_Kern, water_districts$Reduction)
+mojave_lm <- lm(Reduction ~ MC_Mojave, data = water_districts)
+summary(mojave_lm)
+mojave_tidy <- tidy(mojave_lm)
+mojave_tidy
+
+antelope_lm <- lm(Reduction ~ MC_Antelope, data = water_districts)
+summary(antelope_lm)
+antelope_tidy <- tidy(antelope_lm)
+antelope_tidy
+
+ventura_lm <- lm(Reduction ~ MC_Ventura, data = water_districts)
+summary(ventura_lm)
+ventura_tidy <- tidy(ventura_lm)
+ventura_tidy
+
+```
+
+```{r}
+ggplot(data = water_districts, aes(x = Reduction,  y = MC_Kern)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm")
+             
+
+ggplot(data = water_districts, aes(x = Reduction,  y = MC_Mojave)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm")
+             
+ggplot(data = water_districts, aes(x = Reduction,  y = MC_Antelope)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm")
+             
+ggplot(data = water_districts, aes(x = Reduction,  y = MC_Ventura)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm")
+             
+```
+
+```{r}
+#take zero-intercept and slope of curves to create marginal abatement curves
+#Slope: Kern = 0.4302442, Mojave = 0.2559085, Antelope = 0.3331096, Ventura = 0.4703622 (all positive - demand curve is negative)
+
+#derive demand curve from MA curve and plot all 4 onto the same graph -> learned how to do that in class #7
+
+#evaluate scenarios
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
