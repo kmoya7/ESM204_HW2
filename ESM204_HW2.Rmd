@@ -86,7 +86,7 @@ ggplot(data = water_districts, aes(x = Reduction, y = MC_Ventura)) +
     title = element_text(face = "bold"))
 ```
 
-```{r}
+```{r, include = FALSE}
 # Linear regression model
 kern_lm <- lm(MC_Kern ~ 0 + Reduction, data = water_districts)
 summary(kern_lm)
@@ -138,6 +138,8 @@ Take zero-intercept and slope of curves to create marginal abatement curves
 - Slope: Kern = 2.29, Mojave = 3.8, Antelope = 2.86, Ventura = 1.78 (all positive - demand curve is negative)
 - We are provided with E0 (baseline): Kern = 150 AF, Mojave = 140 AF, Antelope = 220 AF, Ventura = 245 AF
 
+### Demand Curves for Water:
+
 - Derive demand curve from MA curve and plot all 4 onto the same graph -> learned how to do that in class #7
 
 ```{r}
@@ -163,3 +165,42 @@ ggplot() +
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+### Alternative Policies:
+
+#### Cap without trade
+- Reduce each district's water by the same fraction so the 500 AF target is met. Trade is not allowed. 
+
+```{r}
+# cap w/o trade
+
+
+```
+
+#### Tax on water use
+- A single tax is implemented on all water use in each of the four districts, such that water use is reduced to the 500 AF target.
+
+```{r}
+# tax
+
+```
+
+#### Cap and trade
+- Cap water use, but allow trade across districts. How much water is used by each district after trade? 
+
+```{r}
+# cap and trade
+
+```
+
+
+### The Cost of Drought:
+
+Water use must be reduced from 500AF to 300AF. 
+
+```{r}
+# some code here
+
+```
+
+
