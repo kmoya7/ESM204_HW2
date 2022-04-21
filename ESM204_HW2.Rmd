@@ -2,21 +2,31 @@
 title: "ESM204_HW2"
 author: "Katheryn Moya & Nickolas McManus"
 date: "4/15/2022"
-output: html_document
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    theme: cerulean
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(here)
 library(tidyverse)
 library(equatiomatic)
 library(broom)
 ```
 
-```{r cars}
+```{r}
 # read in data
 water_districts <-read_csv(here("water_districts.csv"))
 ```
+<br>
+
+### Abatement Costs:
+
+The marginal abatement cost is plotted for each irrigation district below. A linear regression model with zero intercept was added to each graph to indicate (something). (Maybe more explanatory text here). 
+
 
 ```{r}
 # for each irrigation district, plot the marginal abatement cost data
@@ -24,7 +34,7 @@ water_districts <-read_csv(here("water_districts.csv"))
 ## Kern County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Kern)) +
   geom_smooth()+
-  labs(title = "Kern County Marginal Abatement Costs",
+  labs(title = "Kern County Marginal Abatement Cost",
          x = "quantity of reduction",
          y = "Marginal cost") +
   theme_bw()
