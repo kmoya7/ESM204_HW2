@@ -31,37 +31,59 @@ The marginal abatement cost is plotted for each irrigation district below. A lin
 ```{r}
 # for each irrigation district, plot the marginal abatement cost data
 
+## Katheryn: should "quantity of reduction" just be "abatement"?
+
 ## Kern County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Kern)) +
-  geom_smooth()+
+  geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
+  geom_smooth(method = 'lm', color = "slateblue4")+
   labs(title = "Kern County Marginal Abatement Cost",
-         x = "quantity of reduction",
-         y = "Marginal cost") +
-  theme_bw()
+         x = "\nquantity of reduction (acre feet)",
+         y = "marginal cost ($/acre foot)\n") +
+  theme_bw() +
+  theme(
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    title = element_text(face = "bold"))
 
 ## Mojave County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Mojave)) +
-  geom_smooth()+
+  geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
+  geom_smooth(method = 'lm', color = "slateblue4") +
   labs(title = "Mojave County Marginal Abatement Costs",
-         x = "quantity of reduction",
-         y = "Marginal cost") +
-  theme_bw()
+         x = "\nquantity of reduction (acre feet)",
+         y = "marginal cost ($/acre foot)\n") +
+  theme_bw() +
+  theme(
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    title = element_text(face = "bold"))
 
 ## Antelope County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Antelope)) +
-  geom_smooth()+
+  geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
+  geom_smooth(method = 'lm', color = "slateblue4")+
   labs(title = "Antelope County Marginal Abatement Costs",
-         x = "quantity of reduction",
-         y = "Marginal cost") +
-  theme_bw()
+         x = "\nquantity of reduction (acre feet)",
+         y = "marginal cost ($/acre foot)\n") +
+  theme_bw() +
+    theme(
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    title = element_text(face = "bold"))
 
 ## Ventura County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Ventura)) +
-  geom_smooth()+
+  geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
+  geom_smooth(method = 'lm', color = "slateblue4") +
   labs(title = "Ventura County Marginal Abatement Costs",
-         x = "quantity of reduction",
-         y = "Marginal cost") +
-  theme_bw()
+         x = "\nquantity of reduction (acre feet)",
+         y = "marginal cost ($/acre foot)\n") +
+  theme_bw() +
+    theme(
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    title = element_text(face = "bold"))
 ```
 
 ```{r}
