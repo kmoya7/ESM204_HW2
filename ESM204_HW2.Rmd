@@ -121,7 +121,8 @@ D = ventura_lm$coefficient[1]
 
 ```{r}
 ggplot(data = water_districts, aes(x = Reduction,  y = MC_Kern)) +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm", 
+              se = FALSE) #how to remove std error lines, if we wish
              
 ggplot(data = water_districts, aes(x = Reduction,  y = MC_Mojave)) +
   geom_smooth(method = "lm")
@@ -135,7 +136,7 @@ ggplot(data = water_districts, aes(x = Reduction,  y = MC_Ventura)) +
 ```
 Take zero-intercept and slope of curves to create marginal abatement curves
 
-- Slope: Kern = 2.29, Mojave = 3.8, Antelope = 2.86, Ventura = 1.78 (all positive - demand curve is negative)
+- Slope: Kern = `r round(A, 2)`, Mojave = `r round(B, 2)`, Antelope = `r round(C, 2)`, Ventura = `r round(D, 2)` (all positive - demand curve is negative)
 - We are provided with E0 (baseline): Kern = 150 AF, Mojave = 140 AF, Antelope = 220 AF, Ventura = 245 AF
 
 ### Demand Curves for Water:
@@ -165,6 +166,8 @@ ggplot() +
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
 
 ### Alternative Policies:
 
