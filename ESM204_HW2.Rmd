@@ -107,10 +107,7 @@ Take zero-intercept and slope of curves to create marginal abatement curves
 - We are provided with E0 (baseline): Kern = 150 AF, Mojave = 140 AF, Antelope = 220 AF, Ventura = 245 AF
 
 - Derive demand curve from MA curve and plot all 4 onto the same graph -> learned how to do that in class #7
- --- MB_Kern = 64.5 - 0.43E
- --- MB_Mojave = 36.4 - 0.26E
- --- MB_Antelope = 72.6 - 0.33E
- --- MB_Ventura = 115.15 - 0.47E
+
 ```{r}
 # Plot all 4 demand curves onto the same graph
 
