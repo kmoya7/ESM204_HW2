@@ -1,6 +1,6 @@
 ---
 title: "ESM204_HW2"
-author: "Katheryn Moya"
+author: "Katheryn Moya & Nickolas McManus"
 date: "4/15/2022"
 output: html_document
 ---
