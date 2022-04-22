@@ -36,7 +36,7 @@ The marginal abatement cost is plotted for each irrigation district below. A lin
 ## Kern County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Kern)) +
   geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
-  geom_smooth(method = 'lm', color = "slateblue4")+
+  geom_smooth(method = 'lm', se = FALSE, color = "slateblue4")+
   labs(title = "Kern County Marginal Abatement Cost",
          x = "\nquantity of reduction (acre feet)",
          y = "marginal cost ($/acre foot)\n") +
@@ -49,7 +49,7 @@ ggplot(data = water_districts, aes(x = Reduction, y = MC_Kern)) +
 ## Mojave County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Mojave)) +
   geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
-  geom_smooth(method = 'lm', color = "slateblue4") +
+  geom_smooth(method = 'lm', se = FALSE, color = "slateblue4") +
   labs(title = "Mojave County Marginal Abatement Costs",
          x = "\nquantity of reduction (acre feet)",
          y = "marginal cost ($/acre foot)\n") +
@@ -62,7 +62,7 @@ ggplot(data = water_districts, aes(x = Reduction, y = MC_Mojave)) +
 ## Antelope County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Antelope)) +
   geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
-  geom_smooth(method = 'lm', color = "slateblue4")+
+  geom_smooth(method = 'lm', se = FALSE, color = "slateblue4")+
   labs(title = "Antelope County Marginal Abatement Costs",
          x = "\nquantity of reduction (acre feet)",
          y = "marginal cost ($/acre foot)\n") +
@@ -75,7 +75,7 @@ ggplot(data = water_districts, aes(x = Reduction, y = MC_Antelope)) +
 ## Ventura County
 ggplot(data = water_districts, aes(x = Reduction, y = MC_Ventura)) +
   geom_point(color = "slateblue1", size = 1.6, alpha = 0.4) +
-  geom_smooth(method = 'lm', color = "slateblue4") +
+  geom_smooth(method = 'lm', se = FALSE, color = "slateblue4") +
   labs(title = "Ventura County Marginal Abatement Costs",
          x = "\nquantity of reduction (acre feet)",
          y = "marginal cost ($/acre foot)\n") +
@@ -117,6 +117,18 @@ A <- kern_lm$coefficient[1]
 B <- mojave_lm$coefficient[1]
 C <- antelope_lm$coefficient[1]
 D <- ventura_lm$coefficient[1]
+
+# create supply/MAC lines
+MC_Kern <- function(x) {A*x}
+MC_Mojave <- function(x) {B*x}
+MC_Antelope <- function(x) {C*x}
+MC_Ventura <- function(x) {D*x}
+
+# create demand/MB lines
+MB_Kern <- function(x) {343.5 - A*x}
+MB_Mojave <-  function(x) {532 - B*x}
+MB_Antelope <- function(x) {629.2 - C*x}
+MB_Ventura <- function(x) {436.1 - D*x}
 ```
 
 Take zero-intercept and slope of curves to create marginal abatement curves
@@ -130,12 +142,6 @@ Take zero-intercept and slope of curves to create marginal abatement curves
 
 ```{r}
 # Plot all 4 demand curves onto the same graph
-
-MB_Kern <- function(x) {343.5 - 2.29*x}
-MB_Mojave <-  function(x) {532 - 3.8*x}
-MB_Antelope <- function(x) {629.2 - 2.86*x}
-MB_Ventura <- function(x) {436.1 - 1.78*x}
-
 
 ggplot() + 
   xlim(0,245) + 
@@ -158,15 +164,28 @@ ggplot() +
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 
-
 ### Alternative Policies:
 
 #### Cap without trade
 - Reduce each district's water by the same fraction so the 500 AF target is met. Trade is not allowed. 
 
+$755-500=255$
+$(255/755)*100 = 33.8%$
+$150*0.338=50.7$
+
 ```{r}
 # cap w/o trade
 
+# Kern
+ggplot() + 
+  xlim(0,200) + 
+  ylim(0,400) +
+  geom_function(fun = MC_Kern , aes(color = "Kern"), size = 1) +
+  
+   # adding vertical line
+  geom_segment(aes(x = 50.7, y = 116.1, xend = 50.7, yend = -Inf), linetype = "dashed") +
+  
+    theme_bw()
 
 ```
 
@@ -175,6 +194,10 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 ```{r}
 # tax
+#naughts are slope
+#agg_demand = function(p) {(a0/a1) + (b0/b1) + (c0/c1) + (d0/d1) - ((1/a1)*p) - ((1/b1)*p) - ((1/c1)*p) - ((1/d1)*p)}
+
+
 a0 <- 343.5
 a1 <- 2.29
 b0 <- 532
@@ -189,9 +212,57 @@ agg_demand = function(p) {(a0/a1) + (b0/b1) + (c0/c1) + (d0/d1) - ((1/a1)*p) - (
 ggplot() + 
   xlim(0,755) + 
   ylim(0,1000) +
-  geom_function(fun = agg_demand)
+  geom_function(fun = agg_demand) +
+  geom_function(fun = MB_Kern , aes(color = "Kern"), size = 1) +
+  geom_function(fun = MB_Mojave, aes(color = "Mojave"), size = 1) +
+  geom_function(fun = MB_Antelope, aes(color = "Antelope"), size = 1) +
+  geom_function(fun = MB_Ventura, aes(color = "Ventura"), size = 1)
 
 ```
+
+
+```{r}
+#Graph MAC agg instead
+agg_MAC = function(x) {(1/((1/A)+(1/B)+(1/C)+(1/D)))*x}
+
+ggplot() + 
+  xlim(0,500) + 
+  ylim(0,500) +
+  geom_function(fun = agg_MAC, size = 1) +
+  geom_function(fun = MC_Kern , aes(color = "Kern"), size = 1) +
+  geom_function(fun = MC_Mojave, aes(color = "Mojave"), size = 1) +
+  geom_function(fun = MC_Antelope, aes(color = "Antelope"), size = 1) +
+  geom_function(fun = MC_Ventura, aes(color = "Ventura"), size = 1)+
+  
+    # adding vertical line
+  geom_segment(aes(x = 255, y = 158.39, xend = 255, yend = -Inf), linetype = "dashed") +
+  
+  # adding horizontal line
+  geom_segment(aes(x = 255, y = 158.39, xend = -Inf, yend = 158.39), linetype = "dashed") +
+ 
+    theme_bw()
+```
+
+```{r}
+b <- ggplot(mtcars, aes(wt, mpg)) +
+  geom_point()
+
+df <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
+b +
+ geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "curve"), data = df) +
+ geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "segment"), data = df)
+
+b + geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = df, curvature = -0.2)
+b + geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = df, curvature = 1)
+b + geom_curve(
+  aes(x = x1, y = y1, xend = x2, yend = y2),
+  data = df,
+  arrow = arrow(length = unit(0.03, "npc"))
+)
+```
+
+
+
 
 #### Cap and trade
 - Cap water use, but allow trade across districts. How much water is used by each district after trade? 
