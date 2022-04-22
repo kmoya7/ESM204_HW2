@@ -156,7 +156,7 @@ ggplot() +
   geom_function(fun = MB_Ventura, aes(color = "Ventura"), size = 1) +
   
   theme_bw()
-# Ventura is willing to pay the most for the first AF of water
+# Antelope is willing to pay the most for the first AF of water
 #evaluate scenarios
 #could be good to make D agg.
 ```
