@@ -119,21 +119,6 @@ C = antelope_lm$coefficient[1]
 D = ventura_lm$coefficient[1]
 ```
 
-```{r}
-ggplot(data = water_districts, aes(x = Reduction,  y = MC_Kern)) +
-  geom_smooth(method = "lm", 
-              se = FALSE) #how to remove std error lines, if we wish
-             
-ggplot(data = water_districts, aes(x = Reduction,  y = MC_Mojave)) +
-  geom_smooth(method = "lm")
-             
-ggplot(data = water_districts, aes(x = Reduction,  y = MC_Antelope)) +
-  geom_smooth(method = "lm")
-             
-ggplot(data = water_districts, aes(x = Reduction,  y = MC_Ventura)) +
-  geom_smooth(method = "lm")
-             
-```
 Take zero-intercept and slope of curves to create marginal abatement curves
 
 - Slope: Kern = `r round(A, 2)`, Mojave = `r round(B, 2)`, Antelope = `r round(C, 2)`, Ventura = `r round(D, 2)` (all positive - demand curve is negative)
@@ -154,12 +139,17 @@ MB_Ventura <- function(x) {436.1 - 1.78*x}
 
 ggplot() + 
   xlim(0,245) + 
-  ylim(0,600) +
-  labs(title = "Predicted Marginal Benefit Curve", x = "Acre Foot", y = "$/Acre Foot", color = "Irrigation Districts") +
-  geom_function(fun = MB_Kern , aes(color = "Kern")) +
-  geom_function(fun = MB_Mojave, aes(color = "Mojave")) +
-  geom_function(fun = MB_Antelope, aes(color = "Antelope")) +
-  geom_function(fun = MB_Ventura, aes(color = "Ventura")) 
+  ylim(0,650) +
+  labs(title = "Predicted Marginal Benefit Curve", 
+       x = "\nAcre Foot",
+       y = "$/Acre Foot\n",
+       color = "Irrigation Districts") +
+  geom_function(fun = MB_Kern , aes(color = "Kern"), size = 1) +
+  geom_function(fun = MB_Mojave, aes(color = "Mojave"), size = 1) +
+  geom_function(fun = MB_Antelope, aes(color = "Antelope"), size = 1) +
+  geom_function(fun = MB_Ventura, aes(color = "Ventura"), size = 1) +
+  
+  theme_bw()
 # Ventura is willing to pay the most for the first AF of water
 #evaluate scenarios
 #could be good to make D agg.
