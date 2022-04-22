@@ -113,10 +113,10 @@ ventura_tidy
 ```{r}
 # get slopes
 
-A = kern_lm$coefficient[1]
-B = mojave_lm$coefficient[1]
-C = antelope_lm$coefficient[1]
-D = ventura_lm$coefficient[1]
+A <- kern_lm$coefficient[1]
+B <- mojave_lm$coefficient[1]
+C <- antelope_lm$coefficient[1]
+D <- ventura_lm$coefficient[1]
 ```
 
 Take zero-intercept and slope of curves to create marginal abatement curves
@@ -184,7 +184,7 @@ c1 <- 2.86
 d0 <- 436.1
 d1 <- 1.78
 
-agg_demand = function(a0,a1, b0, b1, c0, c1, d0, d1, p) {(a0/a1) + (b0/b1) + (c0/c1) + (d0/d1) - ((1/a1)*p) - ((1/b1)*p) - ((1/c1)*p) - ((1/d1)*p)}
+agg_demand = function(p) {(a0/a1) + (b0/b1) + (c0/c1) + (d0/d1) - ((1/a1)*p) - ((1/b1)*p) - ((1/c1)*p) - ((1/d1)*p)}
 
 ggplot() + 
   xlim(0,755) + 
