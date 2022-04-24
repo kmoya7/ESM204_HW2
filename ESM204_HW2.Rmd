@@ -348,15 +348,6 @@ ggplot() +
 ```
 
 
-
-
-### The Cost of Drought:
-
-Water use must be reduced from 500AF to 300AF. 
-
-```{r}
-# some code here
-
 ```
 
 
