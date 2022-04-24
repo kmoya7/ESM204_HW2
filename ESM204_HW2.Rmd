@@ -180,12 +180,16 @@ $150*0.338=50.7$
 ggplot() + 
   xlim(0,200) + 
   ylim(0,400) +
-  geom_function(fun = MC_Kern , aes(color = "Kern"), size = 1) +
+  geom_function(fun = MC_Kern, size = 1) +
+  
+  labs(title = "Marginal Abatement Cost for Kern", 
+       x = "\nAbatement (AF)",
+       y = "Marginal Cost ($/Acre Foot)\n")+
   
    # adding vertical line
   geom_segment(aes(x = 50.7, y = 116.1, xend = 50.7, yend = -Inf), linetype = "dashed") +
   
-    theme_bw()
+    theme_classic()
 
 ```
 
@@ -228,11 +232,16 @@ agg_MAC = function(x) {(1/((1/A)+(1/B)+(1/C)+(1/D)))*x}
 ggplot() + 
   xlim(0,500) + 
   ylim(0,500) +
-  geom_function(fun = agg_MAC, size = 1) +
+  geom_function(fun = agg_MAC, aes(color = "Aggregate"), size = 1) +
   geom_function(fun = MC_Kern , aes(color = "Kern"), size = 1) +
   geom_function(fun = MC_Mojave, aes(color = "Mojave"), size = 1) +
   geom_function(fun = MC_Antelope, aes(color = "Antelope"), size = 1) +
   geom_function(fun = MC_Ventura, aes(color = "Ventura"), size = 1)+
+  
+   labs(title = "Marginal Abatement Cost", 
+       x = "\nAbatement (AF)",
+       y = "Marginal Cost ($/Acre Foot)\n",
+       color = "Irrigation District")+
   
     # adding vertical line
   geom_segment(aes(x = 255, y = 158.39, xend = 255, yend = -Inf), linetype = "dashed") +
@@ -240,25 +249,7 @@ ggplot() +
   # adding horizontal line
   geom_segment(aes(x = 255, y = 158.39, xend = -Inf, yend = 158.39), linetype = "dashed") +
  
-    theme_bw()
-```
-
-```{r}
-b <- ggplot(mtcars, aes(wt, mpg)) +
-  geom_point()
-
-df <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
-b +
- geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "curve"), data = df) +
- geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "segment"), data = df)
-
-b + geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = df, curvature = -0.2)
-b + geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = df, curvature = 1)
-b + geom_curve(
-  aes(x = x1, y = y1, xend = x2, yend = y2),
-  data = df,
-  arrow = arrow(length = unit(0.03, "npc"))
-)
+    theme_classic()
 ```
 
 
@@ -268,9 +259,95 @@ b + geom_curve(
 - Cap water use, but allow trade across districts. How much water is used by each district after trade? 
 
 ```{r}
-# cap and trade
+# cap and trade Kern
+ggplot() + 
+  xlim(0,300) + 
+  ylim(0,250) +
+  geom_function(fun = agg_MAC, aes(color = "Aggregate"), size = 1) +
+  geom_function(fun = MC_Kern, aes(color = "Kern"), size = 1) +
+  
+  labs(title = "Marginal Abatement Cost for Kern", 
+       x = "\nAbatement (AF)",
+       y = "Marginal Cost ($/Acre Foot)\n",
+       color = "Irrigation District")+
+  
+  
+    # adding vertical line for agg abatement
+  geom_segment(aes(x = 255, y = 158.39, xend = 255, yend = -Inf), linetype = "dashed") +
+  
+  # adding horizontal line for price
+  geom_segment(aes(x = 255, y = 158.39, xend = -Inf, yend = 158.39), linetype = "dashed") +
+ 
+   # adding vertical line for Kern abatement w/o trade
+  geom_segment(aes(x = 50.7, y = 158.39, xend = 50.7, yend = -Inf), linetype = "dotted") +
+  
+  # adding vertical line for Kern abatement w/trade
+  geom_segment(aes(x = 69.17, y = 158.39, xend = 69.17, yend = -Inf), linetype = "longdash") +
+  
+    theme_classic()
 
 ```
+
+```{r}
+#cap and trade Mojave
+ggplot() + 
+  xlim(0,300) + 
+  ylim(0,250) +
+  geom_function(fun = agg_MAC, aes(color = "Aggregate"), size = 1) +
+  geom_function(fun = MC_Mojave, aes(color = "Mojave"), size = 1) +
+  
+  labs(title = "Marginal Abatement Cost for Mojave", 
+       x = "\nAbatement (AF)",
+       y = "Marginal Cost ($/Acre Foot)\n",
+       color = "Irrigation District")+
+  
+  
+    # adding vertical line for agg abatement
+  geom_segment(aes(x = 255, y = 158.39, xend = 255, yend = -Inf), linetype = "dashed") +
+  
+  # adding horizontal line for price
+  geom_segment(aes(x = 255, y = 158.39, xend = -Inf, yend = 158.39), linetype = "dashed") +
+ 
+   # adding vertical line for Kern abatement w/o trade
+  geom_segment(aes(x = 47.3, y = 179.74, xend = 47.3, yend = -Inf), linetype = "dotted") +
+  
+  # adding vertical line for Kern abatement w/trade
+  geom_segment(aes(x = 41.68, y = 158.39, xend = 41.68, yend = -Inf), linetype = "longdash") +
+  
+    theme_classic()
+```
+
+
+```{r}
+#cap and trade Antelope
+ggplot() + 
+  xlim(0,300) + 
+  ylim(0,250) +
+  geom_function(fun = agg_MAC, aes(color = "Aggregate"), size = 1) +
+  geom_function(fun = MC_Antelope, aes(color = "Antelope"), size = 1) +
+  
+  labs(title = "Marginal Abatement Cost for Antelope", 
+       x = "\nAbatement (AF)",
+       y = "Marginal Cost ($/Acre Foot)\n",
+       color = "Irrigation District")+
+  
+  
+    # adding vertical line for agg abatement
+  geom_segment(aes(x = 255, y = 158.39, xend = 255, yend = -Inf), linetype = "dashed") +
+  
+  # adding horizontal line for price
+  geom_segment(aes(x = 255, y = 158.39, xend = -Inf, yend = 158.39), linetype = "dashed") +
+ 
+   # adding vertical line for Kern abatement w/o trade
+  geom_segment(aes(x = 74.4, y = 212.78, xend = 74.4, yend = -Inf), linetype = "dotted") +
+  
+  # adding vertical line for Kern abatement w/trade
+  geom_segment(aes(x = 55.38, y = 158.39, xend = 55.38, yend = -Inf), linetype = "longdash") +
+  
+    theme_classic()
+```
+
+
 
 
 ### The Cost of Drought:
